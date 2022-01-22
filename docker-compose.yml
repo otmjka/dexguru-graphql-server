@@ -1,0 +1,15 @@
+version: "3.9" # optional since v1.27.0
+services:
+  webapp:
+    image: node:16-slim
+    environment:
+      PORT: 3000
+      ENVIRONMENT: local
+      LOG_LEVEL: debug
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/code
+    working_dir: /code
+    ports: ["3000:3000"]
+    command: "./node_modules/.bin/ts-node-dev --transpile-only src/index.ts"

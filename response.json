@@ -1,0 +1,17 @@
+{
+  "total": 8,
+  "data": [
+    { "chain_id": 1, "name": "eth", "description": "Ethereum Mainnet" },
+    { "chain_id": 10, "name": "optimism", "description": "Optimism Ethereum" },
+    { "chain_id": 56, "name": "bsc", "description": "BSC Mainnet" },
+    { "chain_id": 137, "name": "polygon", "description": "Polygon Mainnet" },
+    { "chain_id": 250, "name": "fantom", "description": "Fantom Opera" },
+    { "chain_id": 42161, "name": "arbitrum", "description": "Arbitrum One" },
+    { "chain_id": 42220, "name": "celo", "description": "Celo Mainnet" },
+    {
+      "chain_id": 43114,
+      "name": "avalanche",
+      "description": "Avalanche Mainnet"
+    }
+  ]
+}
