@@ -1,30 +1,56 @@
-import Fastify from "fastify";
-import DexGuruSdk from "./DexGuruSdk";
+import { ApolloServer } from "apollo-server-fastify";
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { ApolloServerPlugin } from "apollo-server-plugin-base";
+import Fastify, { FastifyInstance } from "fastify";
 
-const fastify = Fastify({
-  logger: true,
-});
+import { typeDefs } from "./schema";
+import { resolvers } from "./resolvers";
 
 class HttpServer {
+  fastify: FastifyInstance;
   constructor() {
     // Declare a route
-    const dexGuruService = new DexGuruSdk();
 
-    fastify.get("/", async (request, reply) => {
-      const data = await dexGuruService.getAllChains();
-      reply.send(data);
+    this.fastify = Fastify({
+      logger: true,
     });
   }
 
-  start() {
+  async start() {
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [
+        this.fastifyAppClosePlugin(this.fastify),
+        ApolloServerPluginDrainHttpServer({ httpServer: this.fastify.server }),
+      ],
+    });
+    await server.start();
+    this.fastify.register(server.createHandler());
+    // this.fastify.get("/", async (request, reply) => {
+    //   const data = await dexGuruService.getAllChains();
+    //   reply.send(data);
+    // });
     // Run the server!
-    fastify.listen(3000, "0.0.0.0", function (err, address) {
+    this.fastify.listen(3000, "0.0.0.0", (err, address) => {
       if (err) {
-        fastify.log.error(err);
+        this.fastify.log.error(err);
         process.exit(1);
       }
       // Server is now listening on ${address}
     });
+  }
+
+  fastifyAppClosePlugin(app: FastifyInstance): ApolloServerPlugin {
+    return {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await app.close();
+          },
+        };
+      },
+    };
   }
 }
 

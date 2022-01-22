@@ -13,9 +13,12 @@
     "run:dc": "docker-compose down --remove-orphans && docker-compose up"
   },
   "dependencies": {
+    "apollo-server": "^3.6.2",
+    "apollo-server-core": "^3.6.2",
     "apollo-server-fastify": "^3.6.2",
     "dexguru-sdk": "^1.0.8",
     "fastify": "^3.27.0",
-    "graphql": "^16.2.0"
+    "graphql": "^16.2.0",
+    "nexus": "^1.1.0"
   }
 }
