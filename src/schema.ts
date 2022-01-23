@@ -6,12 +6,12 @@ const typeDefs = gql`
   }
 
   type ChainConnection {
+    total: Int!
     chains: [Chain]!
   }
 
   type Chain {
-    id: ID!
-    chain_id: Int!
+    chain_id: ID!
     name: String!
     description: String!
   }

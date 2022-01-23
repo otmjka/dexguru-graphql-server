@@ -15,11 +15,10 @@ type ChainsResponse = {
 const resolvers = {
   Query: {
     chains: async () => {
-      const data = (await dexGuruService.getAllChains()) as ChainsResponse;
+      const { data, total } =
+        (await dexGuruService.getAllChains()) as ChainsResponse;
 
-      return {
-        chains: data.data,
-      };
+      return { total, chains: data };
     },
   },
 };
